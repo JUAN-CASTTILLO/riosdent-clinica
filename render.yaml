@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: riosdent-clinica
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: ADMIN_PASSWORD
+        sync: false
+      - key: DATABASE_URL
+        sync: false

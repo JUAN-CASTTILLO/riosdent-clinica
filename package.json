@@ -1,0 +1,17 @@
+{
+  "name": "riosdent-clinica",
+  "version": "1.0.0",
+  "description": "Sitio web de Rios Dent con panel de administración privado.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "pg": "^8.12.0"
+  }
+}
