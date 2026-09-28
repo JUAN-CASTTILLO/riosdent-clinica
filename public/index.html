@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:opsz,wght@6..12,300;6..12,400;6..12,500;6..12,600;6..12,700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <script src="js/theme.js"></script>
 </head>
 <body>
 
@@ -21,6 +22,7 @@
       </a>
       <nav class="nav__links" id="navLinks" aria-label="Principal">
         <a href="#inicio" class="is-active">Inicio</a>
+        <a href="#servicios">Servicios</a>
         <a href="#equipo">Equipo</a>
         <a href="#galeria">Galería</a>
         <a href="#ubicacion">Ubicación</a>
@@ -37,13 +39,13 @@
     <!-- ============ HERO ============ -->
     <section class="hero container" id="inicio">
       <div class="hero__card">
-        <img class="hero__img" src="assets/img/hero-cirujano.webp" alt="Odontólogo con lupas quirúrgicas realizando un tratamiento de precisión" fetchpriority="high">
+        <img class="hero__img" id="heroImg" src="assets/img/hero-cirujano.webp" alt="Odontólogo con lupas quirúrgicas realizando un tratamiento de precisión" fetchpriority="high">
         <div class="hero__content">
           <h1 class="hero__title">
             <span class="line"><span>TU SALUD</span></span>
             <span class="line"><span>TU SONRISA</span></span>
           </h1>
-          <p class="hero__text anim-hero" style="--d:.45s">Recibe el mejor cuidado para tus dientes con nuestro equipo experto. Nos aseguramos de que tu sonrisa se mantenga sana y hermosa.</p>
+          <p class="hero__text anim-hero" id="txtHeroText" style="--d:.45s">Recibe el mejor cuidado para tus dientes con nuestro equipo experto. Nos aseguramos de que tu sonrisa se mantenga sana y hermosa.</p>
           <a href="#contacto" class="btn btn--dark anim-hero" style="--d:.6s">Reservar turno</a>
           <div class="hero__hours anim-hero" style="--d:.75s">
             <strong>Horario de atención:</strong>
@@ -54,55 +56,14 @@
       </div>
     </section>
 
-    <!-- ============ SERVICIOS ============ -->
-    <section class="services container section" id="servicios">
-      <div class="services__grid">
-        <div class="services__intro reveal">
-          <h2 class="h2">SERVICIOS</h2>
-          <p class="lead">Atención odontológica de alta calidad para ti y tu familia. Nuestro equipo experto ofrece una amplia gama de servicios, garantizando comodidad y un tratamiento personalizado.</p>
-          <a href="#contacto" class="btn btn--light">Consultar tratamientos</a>
-        </div>
-
-        <a href="#contacto" class="tile tile--ortho reveal" style="--rd:.08s">
-          <img src="assets/img/ortodoncia.jpg" alt="Paciente sonriendo tras su tratamiento de ortodoncia" loading="lazy">
-          <span class="tile__label">Ortodoncia</span>
-          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-        </a>
-
-        <a href="#contacto" class="tile tile--implant reveal" style="--rd:.16s">
-          <img src="assets/img/implantes.jpg" alt="Planificación digital de implantes dentales" loading="lazy">
-          <span class="tile__label">Implantes dentales</span>
-          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-        </a>
-
-        <a href="#contacto" class="tile tile--clean reveal" style="--rd:.08s">
-          <img src="assets/img/limpieza.jpg" alt="Profesional realizando una limpieza dental" loading="lazy">
-          <span class="tile__label">Limpieza dental</span>
-          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-        </a>
-
-        <a href="#contacto" class="tile tile--prosthesis reveal" style="--rd:.16s">
-          <img src="assets/img/protesis.jpg" alt="Modelo de coronas y pieza implantada para prótesis dental" loading="lazy">
-          <span class="tile__label">Prótesis dental</span>
-          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-        </a>
-
-        <a href="#contacto" class="tile tile--kids reveal" style="--rd:.24s">
-          <img src="assets/img/pediatria.jpg" alt="Niña sonriendo feliz" loading="lazy">
-          <span class="tile__label">Odontopediatría</span>
-          <span class="tile__arrow" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9"/></svg></span>
-        </a>
-      </div>
-    </section>
-
-    <!-- ============ SERVICIOS (editable desde /Admin) ============ -->
-    <section class="services-dynamic container section" id="serviciosDinamicos">
+    <!-- ============ SERVICIOS (100% editable desde /Admin) ============ -->
+    <section class="services-dynamic container section" id="servicios">
       <div class="reveal">
-        <h2 class="h2">MÁS SERVICIOS</h2>
-        <p class="lead">Conocé en detalle cada tratamiento, con fotos o videos reales de nuestro consultorio.</p>
+        <h2 class="h2">SERVICIOS</h2>
+        <p class="lead" id="txtServicesLead">Conocé en detalle cada tratamiento, con fotos o videos reales de nuestro consultorio.</p>
       </div>
       <div class="services-dynamic__grid" id="servicesGrid">
-        <p class="services-dynamic__empty" id="servicesEmpty">Muy pronto vamos a sumar más servicios acá.</p>
+        <p class="services-dynamic__empty" id="servicesEmpty">Muy pronto vamos a sumar servicios acá.</p>
       </div>
     </section>
 
@@ -112,7 +73,7 @@
         <div class="clinic__intro">
           <div class="reveal">
             <h2 class="h2">NUESTRA CLÍNICA</h2>
-            <p class="lead">Tratamientos modernos adaptados a tus necesidades, para una experiencia odontológica cómoda y satisfactoria.</p>
+            <p class="lead" id="txtClinicLead">Tratamientos modernos adaptados a tus necesidades, para una experiencia odontológica cómoda y satisfactoria.</p>
           </div>
 
           <div class="features">
@@ -128,17 +89,17 @@
         </div>
 
         <figure class="clinic__photo reveal" style="--rd:.1s">
-          <img src="assets/img/clinica.jpg" alt="Consultorio de la clínica con sillón odontológico moderno" loading="lazy">
+          <img id="clinicImg" src="assets/img/clinica.jpg" alt="Consultorio de la clínica con sillón odontológico moderno" loading="lazy">
         </figure>
 
         <div class="clinic__expert">
           <div class="reveal" style="--rd:.2s">
-            <h3 class="h3">Atención experta</h3>
-            <p class="small">Nuestros odontólogos se capacitan continuamente para brindarte el más alto nivel de servicios dentales.</p>
+            <h3 class="h3" id="txtExpertTitle">Atención experta</h3>
+            <p class="small" id="txtExpertText">Nuestros odontólogos se capacitan continuamente para brindarte el más alto nivel de servicios dentales.</p>
             <a href="#contacto" class="btn btn--light btn--sm">Conoce a nuestro equipo</a>
           </div>
           <figure class="clinic__doctor reveal" style="--rd:.3s">
-            <img src="assets/img/especialista.jpg" alt="Odontólogo especialista del equipo Rios Dent" loading="lazy">
+            <img id="doctorImg" src="assets/img/especialista.jpg" alt="Odontólogo especialista del equipo Rios Dent" loading="lazy">
           </figure>
         </div>
       </div>
@@ -184,12 +145,11 @@
     </section>
 
     <!-- ============ UBICACIÓN ============ -->
-    <!-- Para cambiar la ubicación, editá solo data-address: el mapa y los botones se actualizan solos. -->
-    <section class="location container section" id="ubicacion" data-address="Av. Santa Fe 1234, Buenos Aires, Argentina">
+    <section class="location container section" id="ubicacion">
       <div class="location__grid">
         <div class="location__info reveal">
           <h2 class="h2">DÓNDE<br>ENCONTRARNOS</h2>
-          <p class="lead">Te esperamos en nuestro consultorio. Consultá cómo llegar desde donde estés con un solo toque.</p>
+          <p class="lead" id="txtLocationLead">Te esperamos en nuestro consultorio. Consultá cómo llegar desde donde estés con un solo toque.</p>
 
           <ul class="location__list">
             <li>
@@ -303,7 +263,7 @@
 
     <div class="admin__gate" id="adminGate">
       <h2>Acceso de administrador</h2>
-      <p>Este panel solo es accesible por enlace directo. Ingresá la clave para continuar.</p>
+      <p>Ingresá la clave para continuar.</p>
       <input type="password" id="adminPass" placeholder="Clave de administrador" autocomplete="off">
       <button class="btn btn--dark" id="adminLoginBtn">Entrar</button>
       <p class="err" id="adminErr"></p>
@@ -312,8 +272,24 @@
     <div class="admin__wrap" id="adminPanel" hidden>
 
       <div class="admin__section">
+        <h3>Colores de la página</h3>
+        <p class="hint">Un solo color para todo el sitio: se aplica a todas las secciones a la vez. Podés elegir con el selector o escribir el código (ej. #d63a3a). Podés volver al original cuando quieras.</p>
+        <div class="admin__presets" id="presetList"></div>
+        <div class="admin__colors">
+          <label>Color principal (botones y detalles)<div class="pair"><input type="color" id="c_accent"><input type="text" id="h_accent" maxlength="7"></div></label>
+          <label>Color de fondo<div class="pair"><input type="color" id="c_background"><input type="text" id="h_background" maxlength="7"></div></label>
+          <label>Color de letras y títulos<div class="pair"><input type="color" id="c_text"><input type="text" id="h_text" maxlength="7"></div></label>
+        </div>
+        <div class="admin__preview" id="themePreview"><strong>Así se verá tu página</strong>Texto de ejemplo con las letras elegidas.<br><span class="btnp">Reservar turno</span></div>
+        <p class="admin__warn" id="themeWarn"></p>
+        <button class="btn btn--light" id="saveTheme">Aplicar colores a toda la página</button>
+        <button class="admin__ghost" id="resetTheme">Restaurar colores originales</button>
+        <p class="admin__save" id="saveThemeMsg"></p>
+      </div>
+
+      <div class="admin__section">
         <h3>Datos de contacto</h3>
-        <p class="hint">Se muestran en la sección "Reserva tu turno", en el pie de página y en el botón de WhatsApp.</p>
+        <p class="hint">Se muestran en "Reserva tu turno", en el pie de página y en el botón de WhatsApp.</p>
         <div class="admin__row">
           <label>Email<input type="email" id="fContactEmail" placeholder="hola@tuclinica.com"></label>
           <label>WhatsApp (solo números, con código de país)<input type="text" id="fContactPhone" placeholder="59891234567"></label>
@@ -323,48 +299,56 @@
       </div>
 
       <div class="admin__section">
-        <h3>Sede principal y mapa</h3>
-        <p class="hint">Esta dirección define el mapa y el botón "Cómo llegar" de la sección Ubicación.</p>
-        <div class="admin__row full">
-          <label>Dirección de la sede principal<input type="text" id="fMainAddress" placeholder="Av. Ejemplo 1234, Ciudad"></label>
-        </div>
-        <button class="btn btn--light" id="saveMain">Guardar sede principal</button>
-        <p class="admin__save" id="saveMainMsg"></p>
-      </div>
-
-      <div class="admin__section">
-        <h3>Otras sedes</h3>
-        <p class="hint">Agregá otras sucursales. Van a aparecer como tarjetas debajo del mapa.</p>
-        <div class="admin__row">
-          <label>Nombre de la sede<input type="text" id="fSedeName" placeholder="Sede Pocitos"></label>
-          <label>Teléfono<input type="text" id="fSedePhone" placeholder="59891234567"></label>
+        <h3>Sedes y ubicación</h3>
+        <p class="hint">La sede marcada como <b>Principal</b> es la que aparece en el mapa de "Ubicación". Las demás se muestran como tarjetas con su dirección y botón "Cómo llegar". Podés editar o quitar cualquiera, incluida la original.</p>
+        <div class="admin__list" id="sedeList"></div>
+        <div class="admin__row" style="margin-top:16px">
+          <label>Nombre de la sede<input type="text" id="fSedeName" placeholder="Sede Centro"></label>
+          <label>Teléfono (opcional)<input type="text" id="fSedePhone" placeholder="59891234567"></label>
         </div>
         <div class="admin__row full">
-          <label>Dirección<input type="text" id="fSedeAddress" placeholder="Calle 123, Ciudad"></label>
+          <label>Dirección (se usa para el mapa)<input type="text" id="fSedeAddress" placeholder="Calle 123, Ciudad, País"></label>
         </div>
         <button class="btn btn--light" id="addSede">Agregar sede</button>
-        <div class="admin__list" id="sedeList"></div>
+        <button class="admin__ghost" id="cancelSede" hidden>Cancelar edición</button>
+        <p class="admin__save" id="saveSedeMsg"></p>
       </div>
 
       <div class="admin__section">
         <h3>Servicios</h3>
-        <p class="hint">Creá un servicio nuevo con una foto o un video y su descripción. Aparece en la sección "Más servicios" del sitio, visible para todos.</p>
-        <div class="admin__row full">
+        <p class="hint">Todos los servicios de la página están acá: podés editar su foto/video, título y descripción, o quitarlos.</p>
+        <div class="admin__list" id="serviceList"></div>
+        <div class="admin__row full" style="margin-top:16px">
           <label>Título del servicio<input type="text" id="fServiceTitle" placeholder="Blanqueamiento dental"></label>
         </div>
         <div class="admin__row full">
-          <label>Descripción<textarea id="fServiceDesc" rows="3" placeholder="Contá en qué consiste el tratamiento, duración, cuidados, etc."></textarea></label>
+          <label>Descripción<textarea id="fServiceDesc" rows="3" placeholder="Contá en qué consiste el tratamiento."></textarea></label>
         </div>
         <label class="admin__filebtn">Subir foto o video<input type="file" id="fServiceMedia" accept="image/*,video/*" hidden></label>
         <p class="hint" id="serviceMediaName"></p>
         <button class="btn btn--light" id="addService">Agregar servicio</button>
+        <button class="admin__ghost" id="cancelService" hidden>Cancelar edición</button>
         <p class="admin__save" id="saveServiceMsg"></p>
-        <div class="admin__list" id="serviceList"></div>
+      </div>
+
+      <div class="admin__section">
+        <h3>Imágenes principales</h3>
+        <p class="hint">Cambiá las fotos grandes de la página. "Restaurar original" vuelve a la foto de fábrica.</p>
+        <div class="admin__slots" id="imageSlots"></div>
+        <p class="admin__save" id="saveImagesMsg"></p>
+      </div>
+
+      <div class="admin__section">
+        <h3>Textos de la página</h3>
+        <p class="hint">Editá los textos principales. Los cambios se ven al instante para todos los visitantes.</p>
+        <div class="admin__row full" id="textFields" style="gap:14px"></div>
+        <button class="btn btn--light" id="saveTexts">Guardar textos</button>
+        <p class="admin__save" id="saveTextsMsg"></p>
       </div>
 
       <div class="admin__section">
         <h3>Galería de imágenes</h3>
-        <p class="hint">Subí fotos para la sección "Galería" del sitio. Quedan guardadas en el servidor y las ve cualquier visitante.</p>
+        <p class="hint">Subí fotos para la sección "Galería" y quitá las que no quieras.</p>
         <label class="admin__filebtn">Subir imagen<input type="file" id="fGalleryUpload" accept="image/*" multiple hidden></label>
         <div class="admin__thumbs" id="adminThumbs"></div>
       </div>
@@ -373,5 +357,6 @@
   </div>
 
   <script src="js/script.js"></script>
+  <script src="js/cms.js"></script>
 </body>
 </html>

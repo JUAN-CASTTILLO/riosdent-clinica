@@ -36,14 +36,22 @@ visite el sitio, no solo vos.**
    `.env` para que puedas probarlo sin configurar nada. **Antes de
    publicarlo en internet (Render), cambiala por una tuya** — ver la
    sección "Cambiar la clave" más abajo.
-3. Desde ahí podés:
-   - Cambiar el **email** y el **WhatsApp** de contacto.
-   - Cambiar la **dirección de la sede principal** (actualiza el mapa
-     de la sección Ubicación).
-   - **Agregar o quitar sedes** adicionales (nombre, dirección, teléfono).
-   - **Crear servicios nuevos** con una foto o un video y su descripción
-     (aparecen en la sección "Más servicios" del sitio).
-   - **Subir o quitar fotos** de la sección Galería.
+3. Desde ahí podés (todo se guarda en el servidor y lo ve cualquier visitante):
+   - **Colores de la página**: elegir el color principal (dorado), el de fondo
+     (verde) y el de letras/títulos. Es UN color para toda la página; podés
+     escribir el código (ej. `#d63a3a`) o usar el selector, y volver a los
+     colores originales cuando quieras.
+   - **Contacto**: cambiar email y WhatsApp.
+   - **Sedes y ubicación**: agregar, **editar** y **quitar** cualquier sede
+     (incluida la original), con su dirección. La marcada como *Principal*
+     sale en el mapa de "Ubicación"; las demás aparecen como tarjetas.
+   - **Servicios** (una sola lista): agregar, **editar** (foto/video, título,
+     descripción) y **quitar** cualquier servicio, incluidos los que vienen de fábrica.
+   - **Imágenes principales**: cambiar la foto de portada, la de la clínica y
+     la del especialista (con botón "Restaurar original").
+   - **Textos de la página**: editar los textos principales (portada,
+     servicios, clínica, atención experta, ubicación).
+   - **Galería**: subir y quitar fotos.
 4. El enlace `#admin-riosdent` no aparece en ningún menú — es "secreto"
    en el sentido de que nadie lo va a encontrar navegando, pero no es
    seguridad real por sí solo. La clave (`ADMIN_PASSWORD`) es lo que
@@ -145,6 +153,11 @@ La forma más simple y realmente gratis para siempre es usar
 pero esa vence a los 30 días y se borra si no la pasás a un plan pago —
 por eso para "gratis para siempre" conviene Neon.)*
 
+## Nota sobre los colores
+Las tarjetas claras (por ejemplo la portada y el formulario de contacto) mantienen
+letra oscura para que siempre se lean; el resto de la página usa el color de letras
+que elijas. Si elegís letras y fondo muy parecidos, el panel te avisa del poco contraste.
+
 ## Estructura del proyecto
 
 ```
@@ -158,7 +171,9 @@ riosdent-clinica/
 └── public/
     ├── index.html
     ├── css/styles.css
-    ├── js/script.js
+    ├── js/script.js       (comportamiento del sitio)
+    ├── js/theme.js        (colores: fondo / principal / letras)
+    ├── js/cms.js          (contenido dinámico + panel admin)
     └── assets/img/       # fotos originales del sitio
 ```
 

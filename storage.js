@@ -20,10 +20,36 @@ const path = require('path');
 const DEFAULT_DATA = {
   contactEmail: 'hola@dentrics.com',
   contactPhone: '59898388129',
-  mainAddress: 'Av. Santa Fe 1234, Buenos Aires, Argentina',
-  sedes: [],
+  primarySedeId: 'sede-principal',
+  sedes: [
+    { id: 'sede-principal', name: 'Sede principal', address: 'Av. Santa Fe 1234, Buenos Aires, Argentina', phone: '59898388129' }
+  ],
   gallery: [],
-  services: []
+  services: [
+    { id: 'srv-ortodoncia', title: 'Ortodoncia', description: 'Corregimos la posición de tus dientes con brackets o alineadores, para una sonrisa más pareja y saludable.', mediaType: 'image', mediaSrc: 'assets/img/ortodoncia.jpg' },
+    { id: 'srv-implantes', title: 'Implantes dentales', description: 'Reemplazamos piezas perdidas con implantes de alta precisión, planificados digitalmente.', mediaType: 'image', mediaSrc: 'assets/img/implantes.jpg' },
+    { id: 'srv-limpieza', title: 'Limpieza dental', description: 'Limpieza profesional para eliminar sarro y placa, cuidando tu salud bucal en cada visita.', mediaType: 'image', mediaSrc: 'assets/img/limpieza.jpg' },
+    { id: 'srv-protesis', title: 'Prótesis dental', description: 'Coronas, puentes y prótesis a medida para recuperar función y estética.', mediaType: 'image', mediaSrc: 'assets/img/protesis.jpg' },
+    { id: 'srv-pediatria', title: 'Odontopediatría', description: 'Atención especializada y amigable para los más chicos de la familia.', mediaType: 'image', mediaSrc: 'assets/img/pediatria.jpg' }
+  ],
+  theme: {
+    accent: '#c6941f',     // color principal (botones, detalles) — dorado
+    background: '#123339', // color de fondo de toda la página — verde oscuro
+    text: '#eaf4f1'        // color de letras y títulos
+  },
+  images: {
+    hero: null,
+    clinic: null,
+    doctor: null
+  },
+  texts: {
+    heroText: 'Recibe el mejor cuidado para tus dientes con nuestro equipo experto. Nos aseguramos de que tu sonrisa se mantenga sana y hermosa.',
+    servicesLead: 'Conocé en detalle cada tratamiento, con fotos o videos reales de nuestro consultorio.',
+    clinicLead: 'Tratamientos modernos adaptados a tus necesidades, para una experiencia odontológica cómoda y satisfactoria.',
+    expertTitle: 'Atención experta',
+    expertText: 'Nuestros odontólogos se capacitan continuamente para brindarte el más alto nivel de servicios dentales.',
+    locationLead: 'Te esperamos en nuestro consultorio. Consultá cómo llegar desde donde estés con un solo toque.'
+  }
 };
 
 const usingPostgres = !!process.env.DATABASE_URL;
@@ -54,7 +80,7 @@ if (usingPostgres) {
     async getData() {
       await ready;
       const { rows } = await pool.query('SELECT payload FROM site_data WHERE id = 1');
-      return rows[0] ? rows[0].payload : DEFAULT_DATA;
+      return rows[0] ? { ...DEFAULT_DATA, ...rows[0].payload } : DEFAULT_DATA;
     },
     async setData(data) {
       await ready;

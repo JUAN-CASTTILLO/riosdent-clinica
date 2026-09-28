@@ -59,25 +59,35 @@ app.put('/api/admin/contact', requireAdmin, async (req, res) => {
   res.json(data);
 });
 
-app.put('/api/admin/main-address', requireAdmin, async (req, res) => {
-  const data = await storage.getData();
-  const { mainAddress } = req.body || {};
-  if (mainAddress) data.mainAddress = String(mainAddress).trim();
-  await storage.setData(data);
-  res.json(data);
-});
-
 app.post('/api/admin/sedes', requireAdmin, async (req, res) => {
   const data = await storage.getData();
   const { name, address, phone } = req.body || {};
   if (!name || !address) return res.status(400).json({ error: 'missing_fields' });
   data.sedes = data.sedes || [];
-  data.sedes.push({
-    id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
-    name: String(name).trim(),
-    address: String(address).trim(),
-    phone: String(phone || '').replace(/\D/g, '')
-  });
+  const id = Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+  data.sedes.push({ id, name: String(name).trim(), address: String(address).trim(), phone: String(phone || '').replace(/\D/g, '') });
+  if (!data.primarySedeId) data.primarySedeId = id; // si no había ninguna, esta pasa a ser la principal
+  await storage.setData(data);
+  res.json(data);
+});
+
+app.put('/api/admin/sedes/:id', requireAdmin, async (req, res) => {
+  const data = await storage.getData();
+  const sede = (data.sedes || []).find(s => s.id === req.params.id);
+  if (!sede) return res.status(404).json({ error: 'not_found' });
+  const { name, address, phone } = req.body || {};
+  if (name) sede.name = String(name).trim();
+  if (address) sede.address = String(address).trim();
+  if (phone !== undefined) sede.phone = String(phone).replace(/\D/g, '');
+  await storage.setData(data);
+  res.json(data);
+});
+
+app.put('/api/admin/sedes/:id/primary', requireAdmin, async (req, res) => {
+  const data = await storage.getData();
+  const exists = (data.sedes || []).some(s => s.id === req.params.id);
+  if (!exists) return res.status(404).json({ error: 'not_found' });
+  data.primarySedeId = req.params.id;
   await storage.setData(data);
   res.json(data);
 });
@@ -85,6 +95,9 @@ app.post('/api/admin/sedes', requireAdmin, async (req, res) => {
 app.delete('/api/admin/sedes/:id', requireAdmin, async (req, res) => {
   const data = await storage.getData();
   data.sedes = (data.sedes || []).filter(s => s.id !== req.params.id);
+  if (data.primarySedeId === req.params.id) {
+    data.primarySedeId = data.sedes[0] ? data.sedes[0].id : null;
+  }
   await storage.setData(data);
   res.json(data);
 });
@@ -114,7 +127,7 @@ app.post('/api/admin/services', requireAdmin, async (req, res) => {
   const data = await storage.getData();
   const { title, description, mediaType, mediaSrc } = req.body || {};
   if (!title || !description || !mediaSrc) return res.status(400).json({ error: 'missing_fields' });
-  if (!mediaSrc.startsWith('data:image/') && !mediaSrc.startsWith('data:video/')) {
+  if (!mediaSrc.startsWith('data:image/') && !mediaSrc.startsWith('data:video/') && !mediaSrc.startsWith('assets/')) {
     return res.status(400).json({ error: 'invalid_media' });
   }
   data.services = data.services || [];
@@ -129,9 +142,67 @@ app.post('/api/admin/services', requireAdmin, async (req, res) => {
   res.json(data);
 });
 
+app.put('/api/admin/services/:id', requireAdmin, async (req, res) => {
+  const data = await storage.getData();
+  const service = (data.services || []).find(s => s.id === req.params.id);
+  if (!service) return res.status(404).json({ error: 'not_found' });
+  const { title, description, mediaType, mediaSrc } = req.body || {};
+  if (title) service.title = String(title).trim();
+  if (description) service.description = String(description).trim();
+  if (mediaSrc) {
+    if (!mediaSrc.startsWith('data:image/') && !mediaSrc.startsWith('data:video/') && !mediaSrc.startsWith('assets/')) {
+      return res.status(400).json({ error: 'invalid_media' });
+    }
+    service.mediaSrc = mediaSrc;
+    service.mediaType = mediaType === 'video' ? 'video' : 'image';
+  }
+  await storage.setData(data);
+  res.json(data);
+});
+
 app.delete('/api/admin/services/:id', requireAdmin, async (req, res) => {
   const data = await storage.getData();
   data.services = (data.services || []).filter(s => s.id !== req.params.id);
+  await storage.setData(data);
+  res.json(data);
+});
+
+// ---------- Imágenes principales (hero, clínica, doctor) ----------
+app.put('/api/admin/images', requireAdmin, async (req, res) => {
+  const data = await storage.getData();
+  const { key, src } = req.body || {};
+  const allowed = ['hero', 'clinic', 'doctor'];
+  if (!allowed.includes(key)) return res.status(400).json({ error: 'invalid_key' });
+  if (src !== null && (!src || !src.startsWith('data:image/'))) {
+    return res.status(400).json({ error: 'invalid_image' });
+  }
+  data.images = data.images || {};
+  data.images[key] = src; // null = volver a la imagen original de fábrica
+  await storage.setData(data);
+  res.json(data);
+});
+
+// ---------- Colores del sitio (uno solo para todo: fondo, acento, letras) ----------
+app.put('/api/admin/theme', requireAdmin, async (req, res) => {
+  const data = await storage.getData();
+  const hex = /^#[0-9a-fA-F]{6}$/;
+  const { accent, background, text } = req.body || {};
+  if (![accent, background, text].every(c => typeof c === 'string' && hex.test(c))) {
+    return res.status(400).json({ error: 'invalid_color' });
+  }
+  data.theme = { accent, background, text };
+  await storage.setData(data);
+  res.json(data);
+});
+
+// ---------- Textos editables de la página ----------
+app.put('/api/admin/texts', requireAdmin, async (req, res) => {
+  const data = await storage.getData();
+  const incoming = req.body || {};
+  data.texts = data.texts || {};
+  for (const key of ['heroText', 'servicesLead', 'clinicLead', 'expertTitle', 'expertText', 'locationLead']) {
+    if (typeof incoming[key] === 'string') data.texts[key] = incoming[key].trim();
+  }
   await storage.setData(data);
   res.json(data);
 });
